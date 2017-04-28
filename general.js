@@ -1,33 +1,33 @@
-
-addNavBar = function () {
+addNavBar = function() {
   var navbar = document.createElement('nav-bar');
   navbar.id = 'navbar';
   document.getElementById('body').appendChild(navbar);
 };
 
-addNavBarTab = function (text, active, src, float) {
+getNavBar = function() {
+  return document.getElementById('navbar');
+}
+
+addNavBarTab = function(text, src, float) {
   if (text === undefined) {
     console.log('You need at least 1 parameter as the tab\'s text');
     return;
   }
+  if (getNavBar() === null) {
+    addNavBar();
+  }
   if (float === undefined) {
     console.log('float undefined');
-    float = 'left'; 
+    float = 'left';
   }
-  if (active === undefined) {
-    console.log('active undefined');
-    active = false; 
-  }
-  /*if (src === undefined) {
-    console.log('src undefined');
-    src = '';
-  }*/
   var tab = document.createElement('nav-bar-tab');
   tab.innerHTML = text;
-  text = String(text).toLowerCase().trim();
-  tab.setAttribute(':active', active);
-  tab.setAttribute('v-on:hover', 'hovered');
-  tab.setAttribute('linked', 'hovered');
+  if (getNavBar().childNodes.length === 0) {
+    tab.setAttribute(':active', true);
+  } else {
+    tab.setAttribute(':active', false);
+  }
+  tab.setAttribute('linked', String(text).toLowerCase().trim());
   tab.setAttribute('float', float);
   if (src !== undefined && src !== '') {
     tab.setAttribute('src', src);
@@ -35,19 +35,53 @@ addNavBarTab = function (text, active, src, float) {
   document.getElementById('navbar').appendChild(tab);
 }
 
-addNavBar();
-addNavBarTab('Home', true);
+setActiveTab = function(id) {
+  var tabs = getNavBar().childNodes;
+  for (var i = 0; i < tabs.length; i++) {
+    tabs[i].setAttribute(':active', false);
+  }
+  tabs[id].setAttribute(':active', true);
+}
+
+getContent = function() {
+  return document.getElementById('content');
+}
+
+
+
+var xhttp = new XMLHttpRequest();
+var json;
+xhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    json = JSON.parse(this.responseText);
+    getContent().innerHTML = '<h3>' + json.title + '</h2><hr><p>' + json.body + "</p>";
+  }
+};
+xhttp.open("GET", "/posts/test.json", true);
+xhttp.send();
+
+
+
+
+
+
+
+
+
+addNavBarTab('Home');
 addNavBarTab('About');
-addNavBarTab('Test', false, 'http://www.google.de', 'right');
+addNavBarTab('Test', 'test.html', 'right');
+setActiveTab(0);
 
 
 
 
-var Navbar = Vue.component('nav-bar', {
+
+Vue.component('nav-bar', {
   template: '<ul class="nav-bar"><slot/></ul>'
 })
 
-var Navbarel = Vue.component('nav-bar-tab', {
+var NavBarTab = Vue.component('nav-bar-tab', {
   template: '<li class="nav-bar-tab" :class="{active: active}" :style=styleObj @mouseover="mouseover"><a :href="src" @click="clicked"><slot/></a></li>',
   props: {
     src: {
@@ -60,7 +94,7 @@ var Navbarel = Vue.component('nav-bar-tab', {
     active: Boolean,
     linked: null
   },
-  data: function () {
+  data: function() {
     return {
       styleObj: {
         float: this.float
@@ -69,31 +103,25 @@ var Navbarel = Vue.component('nav-bar-tab', {
     }
   },
   methods: {
-    mouseover: function () {
+    mouseover: function() {
       console.log(this.src);
       this.$emit('hover');
     },
-    clicked: function (e) {
+    clicked: function(e) {
       console.log("clicked", e);
-      content.selectedTab = e.target.text.toLowerCase();
+      //TODO
     }
   }
 });
 
-var navbar = new Vue({
-  el: '#navbar', data: {
-    mycomp: Navbarel
-  },
-  methods: {
-    hovered: function () {
-      console.log('test');
-    }
-  }
+//needs to be after component registration
+new Vue({
+  el: '#body'
+})
+new Vue({
+  el: '#content'
 })
 
-var Myelement = Vue.component('my-element', {
-  template: '<div class="myelement"><p><slot/></p></div>'
-})
 
 /*var content = new Vue({
   el: '#content',
