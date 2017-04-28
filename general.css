@@ -1,0 +1,48 @@
+.nav-bar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: gray;
+  display: block;
+  float: left;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.nav-bar-tab {
+  float: left;
+}
+
+.nav-bar-tab:hover {
+  background-color: darkgray;
+  box-shadow: 0 0 10px lightskyblue;
+}
+
+.active {
+  background-color: rgb(100,100,100);
+  font-weight: bold;
+}
+
+.nav-bar-tab a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 12px 50px;
+  text-decoration: none;
+  font-family: Verdana, monospace;
+  font-size: 1.5em;
+  text-shadow: 0px 0px 1px black, 0px 0px 10px lightskyblue;
+  font-variant: small-caps;
+}
+
+
+.myelement {
+  background-color: red;
+}
+
+body {
+  margin-top: 100px;
+}
