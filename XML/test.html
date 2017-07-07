@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8"></meta>
+  <title>Test</title>
+</head>
+
+<body>
+  <!-- <p onclick="marker('I\'m blue da ba dee da ba di')" id="p">Click</p> -->
+  <!-- <input type="file" id="fileInput" /> -->
+  <!-- <pre id="textbox">sfsdfsdfds</pre> -->
+
+
+
+  <script>
+    var read = function() {
+      if (window.File && window.FileReader && window.FileList && window.Blob) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            console.log("ready");
+          }
+        };
+        xhttp.open("GET", "http://localhost:8000/test.txt", true);
+        xhttp.send();
+        console.log("abc");
+      } else {
+        alert('The File APIs are not fully supported in this browser.');
+      }
+    }
+
+
+
+    // var marker = function(text) {
+    //   while (text.indexOf(" ") !== -1) {
+    //     text = text.replace(" ", "%20");
+    //   }
+    //   var xhttp = new XMLHttpRequest();
+    //   xhttp.onreadystatechange = function() {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //       document.getElementById("p").innerHTML = text;
+    //     }
+    //   };
+    //   xhttp.open("GET", "https://api.telegram.org/bot382937889:AAFNtDYc19syyfeWk1sbSs60dSgu0DaJRBQ/sendMessage?chat_id=-1001143746301&text=" + text, true);
+    //   xhttp.send();
+    // }
+    //
+    // var addMarker = function(roomNum, category, content) {
+    //   var fluegel = roomNum.substring(0, 1).toUpperCase();
+    //   console.log(xml.indexOf("<Fluegel num=\"" + fluegel));
+    //   var fluegelStr = String(xml).substring(xml.indexOf("<Fluegel num=\"" + fluegel) + 17, xml.indexOf("</Fluegel>"));
+    //
+    //   var result = fluegelStr;
+    //   console.log(result);
+    //   return result;
+    // }
+    //
+    // var readFile = function() {
+    //   console.log("readFile");
+    //   var asText = document.getElementById('fileInput');
+    //   var textbox = document.getElementById('textbox');
+    //
+    //   asText.addEventListener('change', function(e) {
+    //     console.log("eventListener");
+    //     var file = asText.files[0];
+    //     var textType = /text.*/;
+    //
+    //     if (file.type.match(textType)) {
+    //       console.log(true);
+    //       var reader = new FileReader();
+    //
+    //       reader.onload = function(e) {
+    //         xml = reader.result;
+    //         //console.log(reader.result);
+    //         textbox.innerHTML = reader.result;
+    //         addMarker("A208", "defekt", "die Studenten");
+    //       }
+    //
+    //       reader.readAsText(file);
+    //     } else {
+    //       console.log("Dateityp nicht unterstützt");
+    //     }
+    //   });
+    // }
+
+    window.onload = read();
+  </script>
+</body>
+
+</html>
